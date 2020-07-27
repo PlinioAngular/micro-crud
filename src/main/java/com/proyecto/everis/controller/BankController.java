@@ -12,76 +12,76 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.proyecto.everis.service.IClientService;
+
+import com.proyecto.everis.model.Bank;
+import com.proyecto.everis.service.IBankService;
 
 import io.swagger.annotations.ApiOperation;
-
-import com.proyecto.everis.model.Client;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("clients")
-public class ClientController {
+@RequestMapping("banks")
+public class BankController {
 	
 	@Autowired
-	private IClientService repository;
+	private IBankService service;
 	
 	@ApiOperation(
-            value = "Agrega cliente",
-            notes = "El parámetro de de tipo Client.class"
+            value = "Agrega banco",
+            notes = "El parámetro de de tipo Bank.class"
     )
 	@PostMapping()
-	Mono<ResponseEntity<Client>> create(@Valid @RequestBody Client ClientsStream) {
-		return this.repository.create(ClientsStream)
+	Mono<ResponseEntity<Bank>> create(@Valid @RequestBody Bank BanksStream) {
+		return this.service.create(BanksStream)
 				.map(mapper->ResponseEntity.ok(mapper));
 	}
 	
 	@ApiOperation(
-            value = "Actualiza cliente",
-            notes = "El parámetro de de tipo Client.class"
+            value = "Actualiza banco",
+            notes = "El parámetro de de tipo Bank.class"
     )
 	@PutMapping()
-	Mono<Client> update(@Valid @RequestBody Client ClientsStream) {
-		return this.repository.create(ClientsStream);
+	Mono<Bank> update(@Valid @RequestBody Bank BanksStream) {
+		return this.service.create(BanksStream);
 	}
 	
 	@ApiOperation(
-            value = "Lista todo cliente",
+            value = "Lista todo banco",
             notes = "No necesita parámetros"
     )
 	@GetMapping(produces="application/json")
-	Flux<Client> list() {
-		return repository.listAll();
+	Flux<Bank> list() {
+		return service.listAll();
 	}
 	
 	@ApiOperation(
-            value = "Lista un cliente por id",
+            value = "Lista un banco por id",
             notes = "El parámetro es de tipo string"
     )
 	@GetMapping("/{id}")
-	Mono<ResponseEntity<Client>> findById(@PathVariable String id) {
-		return this.repository.findId(id).
+	Mono<ResponseEntity<Bank>> findById(@PathVariable String id) {
+		return this.service.findId(id).
 				map(mapper->ResponseEntity.ok(mapper))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
 	
 	@ApiOperation(
-            value = "Elimina un cliente por id",
+            value = "Elimina un banco por id",
             notes = "El parámetro es de tipo string"
     )
 	@DeleteMapping("/{id}")
 	Mono<Void> deleteById(@PathVariable String id) {
-		return this.repository.delete(id);
+		return this.service.delete(id);
 	}
 	
 	@ApiOperation(
-            value = "Elimina todo lo clientes",
+            value = "Elimina todo lo bancos",
             notes = "Utilizado para pruebas"
     )
 	@DeleteMapping
 	Mono<Void> deleteAll() {
-		return this.repository.deleteAll();
+		return this.service.deleteAll();
 	}
 
 }

@@ -8,18 +8,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@Document( collection ="product" )
+@Document(collection = "bank")
 @Data
 @ApiModel(description = "Clase de la colección de producto, puede ser cuentas o créditos")
-public class Product {
-	
+public class Bank {
 	@ApiModelProperty(notes = "ID del producto único")
-	private String id;	
-	@ApiModelProperty(notes = "Nombre comercial del producto")
+	private String id;
+	@ApiModelProperty(notes = "Nombre del banco")
 	@NotNull
-	private String nameProduct;	
-	@ApiModelProperty(notes = "Tipo de producto: Crédito o cuenta")
-	@NotNull
-	private String typeProduct;
+	private String nameBank;
 
 }
