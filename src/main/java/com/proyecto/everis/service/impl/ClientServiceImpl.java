@@ -2,6 +2,8 @@ package com.proyecto.everis.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.everis.model.Client;
@@ -13,6 +15,13 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class ClientServiceImpl implements IClientService{
+	
+	private ReactiveCircuitBreaker   cb;
+
+	public ClientServiceImpl( 
+			ReactiveCircuitBreakerFactory cbFactory) {
+		this.cb = cbFactory.create("findId");
+	}
 	
 	@Autowired
 	private ClientRepository clientRepository;
@@ -39,6 +48,7 @@ public class ClientServiceImpl implements IClientService{
 	public Mono<Client> findId(String id) {
 		// TODO Auto-generated method stub
 		return clientRepository.findById(id);
+			
 	}
 
 	@Override
