@@ -57,7 +57,7 @@ public class ClientController {
             value = "Lista todo cliente",
             notes = "No necesita parámetros"
     )
-	@CircuitBreaker(name="ms1", fallbackMethod = "findError")
+	@CircuitBreaker(name="ms1")
 	@TimeLimiter(name="ms1")
 	@GetMapping(produces="application/json")
 	Flux<Client> list() {
